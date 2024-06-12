@@ -16,7 +16,7 @@ pipeline {
                 script {
                     dir('application') {
                         // Navigate to the directory that contains Dockerfile
-                        buildAndPushDockerImage(dockerHubCredentialsID, imageName)
+                        buildAndPushDockerImage(dockerHubCredentialsID, imageName, BUILD_NUMBER)
                     }
                 }
             }
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     dir('application') {
-                        deployToOpenShift(openshiftCredentialsID, openshiftClusterURL, openshiftProject, imageName)
+                        deployToOpenShift(openshiftCredentialsID, openshiftClusterURL, openshiftProject, imageName, BUILD_NUMBER)
                     }
                 }
             }
