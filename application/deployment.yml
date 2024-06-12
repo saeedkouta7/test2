@@ -16,4 +16,4 @@ spec:
       - name: jenkins-project
         image: saeedkouta/ivolve-test1:v1
         ports:
-        - containerPort: 8081
+        - containerPort: 8080
