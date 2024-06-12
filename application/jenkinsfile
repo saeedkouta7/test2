@@ -14,8 +14,10 @@ pipeline {
         stage('Build & Push Docker Image') {
             steps {
                 script {
+                   dir('application'){
                     // Navigate to the directory that contains Dockerfile
                     build&pushDockerImage("${dockerHubCredentialsID}", "${imageName}")
+                    }
                 }
             }
         }
@@ -23,7 +25,9 @@ pipeline {
         stage('Deploy on OpenShift Cluster') {
             steps {
                 script { 
-                    deployToOpenShift("${openshiftCredentialsID}", "${openshiftClusterURL}", "${openshiftProject}", "${imageName}")
+                    dir('application'){
+                        deployToOpenShift("${openshiftCredentialsID}", "${openshiftClusterURL}", "${openshiftProject}", "${imageName}")
+                    }
                 }
             }
         }
