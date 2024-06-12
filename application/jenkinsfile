@@ -16,7 +16,7 @@ pipeline {
                 script {
                    dir('application'){
                     // Navigate to the directory that contains Dockerfile
-                    build&pushDockerImage("${dockerHubCredentialsID}", "${imageName}")
+                        build&pushDockerImage("${dockerHubCredentialsID}", "${imageName}")
                     }
                 }
             }
