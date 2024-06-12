@@ -1,32 +1,32 @@
 @Library('shared_library')_
 pipeline {
     agent any
-    
+
     environment {
         dockerHubCredentialsID = 'DockerHub'                          // DockerHub credentials ID.
-        imageName              = 'saeedkouta/ivolve-test1'         // DockerHub repo/image name.
-        openshiftCredentialsID = 'openshift-token'                    // service account token credentials ID
+        imageName              = 'saeedkouta/ivolve-test1'           // DockerHub repo/image name.
+        openshiftCredentialsID = 'openshift-token'                    // Service account token credentials ID.
         openshiftClusterURL    = 'https://api.ocp-training.ivolve-test.com:6443' // OpenShift Cluster URL.
         openshiftProject       = 'saeedkouta'                         // OpenShift project name.
     }
 
     stages {
-            stage('Build & Push Docker Image') {
-                steps {
-                    script {
-                       dir('application'){
+        stage('Build & Push Docker Image') {
+            steps {
+                script {
+                    dir('application') {
                         // Navigate to the directory that contains Dockerfile
-                            build&pushDockerImage("${dockerHubCredentialsID}", "${imageName}")
+                        build&pushDockerImage("${dockerHubCredentialsID}", "${imageName}")
                     }
                 }
             }
         }
 
-            stage('Deploy on OpenShift Cluster') {
-                steps {
-                    script { 
-                        dir('application'){
-                            deployToOpenShift("${openshiftCredentialsID}", "${openshiftClusterURL}", "${openshiftProject}", "${imageName}")
+        stage('Deploy on OpenShift Cluster') {
+            steps {
+                script { 
+                    dir('application') {
+                        deployToOpenShift("${openshiftCredentialsID}", "${openshiftClusterURL}", "${openshiftProject}", "${imageName}")
                     }
                 }
             }
@@ -34,15 +34,15 @@ pipeline {
     }
 
     post {
-                always {
-                    echo "Pipeline completed."
-                cleanWs() // Clean workspace after the build is finished
-            }
-                success {
-                    echo "${JOB_NAME}-${BUILD_NUMBER} pipeline succeeded"
-            }
-                failure {
-                    echo "${JOB_NAME}-${BUILD_NUMBER} pipeline failed"
-            }
+        always {
+            echo "Pipeline completed."
+            cleanWs() // Clean workspace after the build is finished
+        }
+        success {
+            echo "${JOB_NAME}-${BUILD_NUMBER} pipeline succeeded"
+        }
+        failure {
+            echo "${JOB_NAME}-${BUILD_NUMBER} pipeline failed"
         }
     }
+}
