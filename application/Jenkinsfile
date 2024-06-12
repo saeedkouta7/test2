@@ -32,7 +32,7 @@ pipeline {
             }
         }
 
-    post {
+         post {
             always {
                 echo "Pipeline completed."
             cleanWs() // Clean workspace after the build is finished
