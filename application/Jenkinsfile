@@ -11,6 +11,48 @@ pipeline {
     }
 
     stages {
+        stage('Repo Checkout') {
+           steps {
+            	script {
+                	gitcheckout
+                }
+            }
+        }
+
+        stage('Run Unit Test') {
+            steps {
+                script {
+                	// Navigate to the directory contains the Application
+                	dir('application') {
+                		unitTests
+            		}
+        	   }
+    	    }
+	    }
+
+        stage('Run Code Compile') {
+            steps {
+                script {
+                	// Navigate to the directory contains the Application
+                	dir('application') {
+                		codecompile
+            		}
+        	    }
+    	    }
+	    }
+
+        stage('Run SonarQube Analysis') {
+            steps {
+                script {
+                    	// Navigate to the directory contains the Application
+                    	dir('application') {
+                    		runSonarQubeAnalysis()
+                    	}
+                    }
+                }
+            }
+
+        
         stage('Build & Push Docker Image') {
             steps {
                 script {
