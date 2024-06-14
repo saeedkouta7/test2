@@ -2,7 +2,7 @@
 FROM gradle:7.3.3-jdk11 AS build
 
 # Set the working directory
-WORKDIR /App
+WORKDIR /application
 
 # Copy only the build files needed for dependency resolution
 COPY build.gradle settings.gradle ./
@@ -24,10 +24,10 @@ RUN ./gradlew build --stacktrace
 FROM adoptopenjdk:11-jre-hotspot
 
 # Set the working directory
-WORKDIR /App
+WORKDIR /application
 
 # Copy the JAR file from the build stage
-COPY --from=build /App/build/libs/demo-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /application/build/libs/demo-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port your app runs on
 EXPOSE 8080
